@@ -1,0 +1,7 @@
+{
+  "name": "Geolocazicao-tomtom",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
