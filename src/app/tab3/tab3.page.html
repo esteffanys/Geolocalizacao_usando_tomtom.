@@ -1,17 +1,39 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-title>
-      Tab 3
+      TomTom Maps
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 3</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <div #map id="map"></div>
+  <div class="data-div">
+    <div class="ion-text-center ion-padding" *ngIf="!currentLocationAvailable">
+      <ion-button expand="full" (click)="getLocation()">Get Location</ion-button>
+    </div>
+    <ion-list-header *ngIf="reverseGeoCoded">Your Location</ion-list-header>
+    <div class="ion-padding" *ngIf="reverseGeoCoded">
+      {{reverseGeoCoded}}
+    </div>
+    <div *ngIf="reverseGeoCoded">
+      <ion-list-header>Search Results</ion-list-header>
+      <ion-item>
+        <ion-label color="primary">Search Term</ion-label>
+        <ion-input [(ngModel)]="query"></ion-input>
+      </ion-item>
+      <div class="ion-text-center ion-padding" *ngIf="!searchResultsAvailable && reverseGeoCoded">
+        <ion-button expand="full" (click)="search()">Get Search Results</ion-button>
+      </div>
+      <ion-list *ngIf="searchResults && searchResults.length">
 
-  <app-explore-container name="Tab 3 page"></app-explore-container>
+        <ion-item *ngFor="let res of searchResults">
+          <ion-label>{{res.address.freeformAddress}} {{res.address.countryCodeISO3}}</ion-label>
+          <ion-button fill="clear" size="small" slot="end" (click)="locateResult(res)">
+            Locate
+          </ion-button>
+        </ion-item>
+      </ion-list>
+    </div>
+  </div>
 </ion-content>
